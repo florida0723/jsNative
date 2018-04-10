@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title>js 判断数据类型</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    function type() {
+        return Object.prototype.toString.call(arguments[0]).slice(8, -1).toLowerCase();
+    }
+
+    function isArray(val) {
+        if (type(val) == 'array') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function isObject(val) {
+        if (type(val) == 'object') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function deepExtend(dest, source) {
+        if (isArray(source)) {
+            dest = dest || [];
+        } else {
+            dest = dest || {};
+        }
+
+        for (var key in source) {
+            if (isArray(source[key])) {
+                dest[key] = dest[key] ? dest[key] : [];
+                deepExtend(dest[key], source[key]);
+            } else if (isObject(source[key])) {
+                dest[key] = dest[key] ? dest[key] : {};
+                deepExtend(dest[key], source[key]);
+            } else {
+                dest[key] = source[key];
+            }
+        }
+    }
+
+    var dest = {};    // dest 必须是对象或者数组。  
+    var source = {
+        'name': 'liutao',
+        'sex': '男',
+        'address': {
+            'province': '陕西',
+            'city': '西安'
+        }
+    };
+
+    deepExtend(dest, source);
+
+    dest.address.city = '渭南';
+
+    console.log(dest);
+    console.log(source);
+</script>
+</body>
+</html>
