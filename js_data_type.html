@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>js 判断数据类型</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    function type(val){
+        return Object.prototype.toString.call(arguments[0]).slice(8, -1).toLowerCase();
+    }
+    
+    console.log(type(null) == 'null');
+    console.log(type(undefined) == 'undefined');
+    console.log(type('florida0723') == 'string');
+    console.log(type(1) == 'number');
+    console.log(type(true) == 'boolean');
+    console.log(type(new Date()) == 'date');
+</script>
+</body>
+</html>
