@@ -26,13 +26,10 @@
     }
 
     function deepExtend(dest, source) {
-        if (isArray(source)) {
-            dest = dest || [];
-        } else {
-            dest = dest || {};
-        }
-
         for (var key in source) {
+            if(type(dest[key]) !== type(source[key])){    // 如果key一致，但是值类型不一致。
+                delete dest[key];
+            }
             if (isArray(source[key])) {
                 dest[key] = dest[key] ? dest[key] : [];
                 deepExtend(dest[key], source[key]);
@@ -45,7 +42,7 @@
         }
     }
 
-    var dest = {};    // dest 必须是对象或者数组。  
+    var dest = {'address': {'dfs':342345, 'fds': [1,2,3]}};    // dest 必须是对象或者数组。  
     var source = {
         'name': 'liutao',
         'sex': '男',
