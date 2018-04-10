@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>js 封装ajax请求</title>
+</head>
+<body>
+    github: <a href="https://github.com/florida0723" target="_blank">github</a>
+    <br/>
+    js 封装ajax请求
+    
+<script type="text/javascript">
+    var window.$ = {};
+    
+    $.ajax = function(config){
+        
+    }
+    
+    // 参数配置参考https://www.cnblogs.com/zhangruisoldier/p/8006099.html
+    $.ajax({
+        url: 'https://www.baidu.com/',
+        type: 'get',    // 要求为String类型的参数，请求方式（post或get）默认为get。
+        timeout: 5000,    // 毫秒
+        async: true,    // 默认设置为true，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为false。
+        cache: true,    // 默认为true（当dataType为script时，默认为false），设置为false将不会从浏览器缓存中加载请求信息。
+        data: {'name': 'liutao', 'password': 123456},
+        dataType: 'html',  // html：返回纯文本HTML信息；包含的script标签会在插入DOM时执行。
+        beforeSend: function(XMLHttpRequest){
+            
+        },
+        complete: function(XMLHttpRequest, textStatus){
+            
+        },
+        success: function(data, textStatus){
+            
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown){
+            
+        }
+    });
+</script>
+</body>
+</html>
