@@ -26,11 +26,7 @@
             return Object.prototype.toString.call(arguments[0]).slice(8, -1).toLowerCase();
         }
         function isFunction(val){
-            if (type(val) == 'function') {
-                return true;
-            } else {
-                return false;
-            }
+            return type(val) === 'function'
         }
 
         
@@ -43,7 +39,6 @@
             config.async = config.async || true;
             config.user = config.user || '';
             config.password = config.password || '';
-            
             config.data = config.data || null;
             
             config.beforeSend = config.beforeSend || function () {};

@@ -12,19 +12,11 @@
     }
 
     function isArray(val) {
-        if (type(val) == 'array') {
-            return true;
-        } else {
-            return false;
-        }
+        return type(val) === 'array';
     }
 
     function isObject(val) {
-        if (type(val) == 'object') {
-            return true;
-        } else {
-            return false;
-        }
+        return type(val) === 'object';
     }
 
     function deepExtend(dest, source) {
