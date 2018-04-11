@@ -1,41 +1,135 @@
 <html>
 <head>
     <title>js 封装ajax请求</title>
+    <meta charset="utf-8"/>
 </head>
 <body>
     github: <a href="https://github.com/florida0723" target="_blank">github</a>
     <br/>
     js 封装ajax请求
     
+    <button id="sendBtn" onclick="sendReq()">发送请求</button>
+    
 <script type="text/javascript">
-    var window.$ = {};
-    
-    $.ajax = function(config){
-        
-    }
-    
-    // 参数配置参考https://www.cnblogs.com/zhangruisoldier/p/8006099.html
-    $.ajax({
-        url: 'https://www.baidu.com/',
-        type: 'get',    // 要求为String类型的参数，请求方式（post或get）默认为get。
-        timeout: 5000,    // 毫秒
-        async: true,    // 默认设置为true，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为false。
-        cache: true,    // 默认为true（当dataType为script时，默认为false），设置为false将不会从浏览器缓存中加载请求信息。
-        data: {'name': 'liutao', 'password': 123456},
-        dataType: 'html',  // html：返回纯文本HTML信息；包含的script标签会在插入DOM时执行。
-        beforeSend: function(XMLHttpRequest){
-            
-        },
-        complete: function(XMLHttpRequest, textStatus){
-            
-        },
-        success: function(data, textStatus){
-            
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown){
-            
+    (function (root, factory) {
+        if (typeof define === 'function' && define.amd) { // AMD
+            define(factory);
+        } else if (typeof exports === 'object') { // Node, CommonJS之类的
+            module.exports = factory();
+        } else { // 浏览器全局变量(root 即 window)
+            root.$ajax = factory();
         }
-    });
+    }(this, function () {
+
+        // 私有方法
+        function type(){
+            return Object.prototype.toString.call(arguments[0]).slice(8, -1).toLowerCase();
+        }
+        function isFunction(val){
+            if (type(val) == 'function') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        
+        function $ajax(config){
+            
+            config = config || {};
+            
+            config.url = config.url || '';
+            config.method = config.method.toUpperCase() || 'POST';
+            config.async = config.async || true;
+            config.user = config.user || '';
+            config.password = config.password || '';
+            
+            config.data = config.data || null;
+            
+            config.beforeSend = config.beforeSend || function () {};
+            config.complete = config.complete || function () {};
+            config.success = config.success || function () {};
+            
+            config.contentType = config.contentType || 'application/x-www-form-urlencoded;charset=utf-8';
+            
+            var xmlHttp = null;
+            if (window.XMLHttpRequest) {    // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlHttp = new XMLHttpRequest();
+            } else {    // code for IE6, IE5
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            
+            xmlHttp.responseType = config.responseType || 'text';
+            xmlHttp.timeout = config.timeout || 0;
+            
+            var params = [];
+            for (var key in config.data){
+                params.push(key + '=' + config.data[key]);
+            }
+            
+            var postData = params.join('&');
+
+            if (config.method.toUpperCase() === 'POST') {
+                xmlHttp.open(config.method, config.url, config.async, config.user, config.password);
+                xmlHttp.setRequestHeader('Content-Type', config.contentType);
+                
+                config.beforeSend(xmlHttp);
+                //xmlHttp.send(postData);
+                xmlHttp.send(JSON.stringify(config.data));
+            } else if (config.method.toUpperCase() === 'GET') {
+                xmlHttp.open(config.method, config.url + '?' + postData, config.async, config.user, config.password);
+                
+                config.beforeSend(xmlHttp);
+                xmlHttp.send(null);
+            }
+            
+            xmlHttp.onreadystatechange = function(){
+                if(xmlHttp.readyState == 4){
+                    
+                    // http请求完成执行回调。不论是404、500或者其他。
+                    config.complete(xmlHttp, xmlHttp.status);
+                    
+                    // 请求状态为200时执行success回调
+                    if(xmlHttp.status == 200){
+                        config.success(xmlHttp, xmlHttp.status);
+                    }
+                }
+            }
+        }
+        
+        // 暴露公共方法
+        return $ajax;
+    }));
+
+    
+    function sendReq(){
+        // 参数配置参考https://www.cnblogs.com/zhangruisoldier/p/8006099.html
+        $ajax({
+            url: 'http://localhost/index.php',
+            method: 'post',    // 要求为String类型的参数，请求方式（post或get）默认为get。
+            timeout: 5000,    // 毫秒
+            async: true,    // 默认设置为true，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为false。
+            user: '',   // 规定在 HTTP 访问认证请求中使用的用户名。
+            password: '',   // 规定在 HTTP 访问认证请求中使用的密码。
+            //cache: true,    // 默认为true（当dataType为script时，默认为false），设置为false将不会从浏览器缓存中加载请求信息。
+            contentType: 'application/json;charset=UTF-8',
+            data: {'name': 'liutao', 'password': 123456},
+            responseType: 'json',  // 预期的服务器响应的数据类型。"", "arraybuffer", "blob","document","json","text" 默认"text"
+            beforeSend: function(xhr){
+                console.log(xhr);
+            },
+            complete: function(xhr, status){
+                console.log('complete', xhr);
+                console.log('complete', status);
+            },
+            success: function(xhr, status){
+                console.log('success', xhr);
+            },
+            error: function(xhr, status, error){
+                
+            }
+        });
+    }
 </script>
 </body>
 </html>
