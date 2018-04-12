@@ -7,16 +7,74 @@
     <br/>
     js 判断数据类型
 <script type="text/javascript">
-    function type(){
+    function typeVal() {
         return Object.prototype.toString.call(arguments[0]).slice(8, -1).toLowerCase();
     }
+
+    console.log(typeVal(null) == 'null');
+    console.log(typeVal(undefined) == 'undefined');
+    console.log(typeVal('florida0723') == 'string');
+    console.log(typeVal(1) == 'number');
+    console.log(typeVal(true) == 'boolean');
+    console.log(typeVal(new Date()) == 'date');
+
+    function isArray(val) {
+        return Object.prototype.toString.call(val) === '[object Array]';
+    }
+
+    function isString(val) {
+        return typeof val === 'string';
+    }
+
+    function isNumber(val) {
+        return typeof val === 'number';
+    }
+
+    function isUndefined(val) {
+        return typeof val === 'undefined';
+    }
+
+    function isFunction(val) {
+        return typeof val === 'function';
+    }
+
+    function isObject(val) {
+        return val !== null && typeof val === 'object'
+    }
+
+    function isDate(val) {
+        return Object.prototype.toString.call(val) === '[object Date]';
+    }
+
+    function isFormData(val) {
+        return (typeof FormData !== 'undefined') && (val instanceof FormData);
+    }
+
+    function isFile(val) {
+        return Object.prototype.toString.call(val) === '[object File]';
+    }
+
+    function isBlob(val) {
+        return Object.prototype.toString.call(val) === '[object Blob]';
+    }
     
-    console.log(type(null) == 'null');
-    console.log(type(undefined) == 'undefined');
-    console.log(type('florida0723') == 'string');
-    console.log(type(1) == 'number');
-    console.log(type(true) == 'boolean');
-    console.log(type(new Date()) == 'date');
+    function isStream(val) {
+        return isObject(val) && isFunction(val.pipe);
+    }
+
+    function isArrayBuffer(val) {
+        return Object.prototype.toString.call(val) === '[object ArrayBuffer]';
+    }
+
+    function isArrayBufferView(val) {
+        var result;
+        if ((typeof ArrayBuffer !== 'undefined') && (ArrayBuffer.isView)) {
+            result = ArrayBuffer.isView(val);
+        } else {
+            result = (val) && (val.buffer) && (val.buffer instanceof ArrayBuffer);
+        }
+        return result;
+    }
 </script>
 </body>
 </html>
