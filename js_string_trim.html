@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>js 字符串去空格</title>
+</head>
+<body>
+    github: <a href="https://github.com/florida0723" target="_blank">github</a>
+    <br/>
+    js 字符串去空格
+<script type="text/javascript">
+    // 方法
+    function trim(str) {
+        return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+    }
+    
+    // Polyfill 方式
+    if (!String.prototype.trim) {
+      String.prototype.trim = function () {
+        return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+      };
+    }
+    
+    console.log('  0723 florida 呵呵   ');
+    
+    console.log(trim('  0723 florida 呵呵   '));
+    
+    console.log('  0723 florida 呵呵   '.trim());
+</script>
+</body>
+</html>
