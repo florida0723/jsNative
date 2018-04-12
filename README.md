@@ -17,3 +17,6 @@
     
 ## 6、js 获取浏览器滚动条宽度
     参考：js_browser_scrollBarWidth.html页面
+    
+## 7、js call、apply、bind从懵B，到精通。
+    参考：js_call_apply_bind.html页面
