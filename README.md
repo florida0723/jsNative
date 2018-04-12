@@ -11,3 +11,6 @@
 
 ## 4、$ajax 原生XMLHttpRequest封装
     参考：js_$ajax.html页面
+    
+## 5、字符串去空格
+    参考：js_string_trim.html页面
