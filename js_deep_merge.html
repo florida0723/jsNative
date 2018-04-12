@@ -1,11 +1,11 @@
 <html>
 <head>
-    <title>js 对象深度复制</title>
+    <title>js 对象深度merge</title>
 </head>
 <body>
     github: <a href="https://github.com/florida0723" target="_blank">github</a>
     <br/>
-    js 对象深度复制
+    js 对象深度merge
 <script type="text/javascript">
     function type() {
         return Object.prototype.toString.call(arguments[0]).slice(8, -1).toLowerCase();
@@ -19,17 +19,17 @@
         return type(val) === 'object';
     }
 
-    function deepExtend(dest, source) {
+    function merge(dest, source) {
         for (var key in source) {
             if(type(dest[key]) !== type(source[key])){    // 如果key一致，但是值类型不一致。
                 delete dest[key];
             }
             if (isArray(source[key])) {
                 dest[key] = dest[key] ? dest[key] : [];
-                deepExtend(dest[key], source[key]);
+                merge(dest[key], source[key]);
             } else if (isObject(source[key])) {
                 dest[key] = dest[key] ? dest[key] : {};
-                deepExtend(dest[key], source[key]);
+                merge(dest[key], source[key]);
             } else {
                 dest[key] = source[key];
             }
@@ -46,7 +46,7 @@
         }
     };
 
-    deepExtend(dest, source);
+    merge(dest, source);
 
     dest.address.city = '渭南';
 

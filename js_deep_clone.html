@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>js 对象深度克隆</title>
+</head>
+<body>
+    github: <a href="https://github.com/florida0723" target="_blank">github</a>
+    <br/>
+    js 对象深度克隆
+<script type="text/javascript">
+    function clone(obj) {
+        var rst;
+        
+        if (typeof obj === 'object') {
+            if (obj === null) {
+                rst = null;
+            } else if (obj instanceof Array) {
+                rst = [];    
+                
+                for(var i = 0, len = obj.length; i < len; i++){
+                    rst.push(clone(obj[i]));
+                }
+            } else {
+                rst = {};
+                
+                for(var key in obj){
+                    rst[key] = clone(obj[key]);
+                }
+            }
+        }else {
+            rst = obj;
+        }
+        return rst;
+    }
+     
+    var source = {
+        'name': 'liutao',
+        'sex': '男',
+        'address': {
+            'province': '陕西',
+            'city': '西安'
+        }
+    };
+    
+    var dest = clone(source);
+
+    dest.address.city = '渭南';
+
+    console.log(dest);
+    console.log(source);
+</script>
+</body>
+</html>
