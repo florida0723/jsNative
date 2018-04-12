@@ -1,0 +1,52 @@
+<html>
+<head>
+    <title>js 获取浏览器滚动条的宽度</title>
+</head>
+<body>
+    github: <a href="https://github.com/florida0723" target="_blank">github</a>
+    <br/>
+    js 获取浏览器滚动条的宽度
+    <p id="tips"></p>
+    
+<script type="text/javascript">
+    function getScrollBarSize () {
+        var inner = document.createElement('div');
+        inner.style.width = '100%';
+        inner.style.height = '200px';
+
+        var outer = document.createElement('div');
+        var outerStyle = outer.style;
+
+        outerStyle.position = 'absolute';
+        outerStyle.top = 0;
+        outerStyle.left = 0;
+        outerStyle.pointerEvents = 'none';
+        outerStyle.visibility = 'hidden';
+        outerStyle.width = '200px';
+        outerStyle.height = '150px';
+        outerStyle.overflow = 'hidden';
+
+        outer.appendChild(inner);
+
+        document.body.appendChild(outer);
+        
+        var widthContained = inner.offsetWidth;
+        outer.style.overflow = 'scroll';
+        let widthScroll = inner.offsetWidth;
+
+        if (widthContained === widthScroll) {
+            widthScroll = outer.clientWidth;
+        }
+
+        document.body.removeChild(outer);
+
+        var cached = widthContained - widthScroll;
+            
+        return cached;
+    }
+    
+    
+    document.getElementById('tips').innerHTML = '您的浏览器滚动条宽度为：' + getScrollBarSize() + 'px';
+</script>
+</body>
+</html>

@@ -14,3 +14,6 @@
     
 ## 5、字符串去空格
     参考：js_string_trim.html页面
+    
+## 6、js 获取浏览器滚动条宽度
+    参考：js_browser_scrollBarWidth.html页面
