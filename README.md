@@ -1,4 +1,4 @@
-# js 造轮子
+# js 从入门到装B
 
 ## 1、js数据类型判断
     参考：js_data_type.html页面
