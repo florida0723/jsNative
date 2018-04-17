@@ -15,6 +15,38 @@
         </p>
     </div>
 <script type="text/javascript">
+	// JS中，事件一般指的是浏览器为dom节点预留的一些用户操作接口。例如鼠标的onclick、onmouseover、onmouseout、键盘的onkeyup、onkeydown等。
+	// 我们可以手动为dom节点增加事件对应的程序，这就叫做事件处理程序。对于事件处理程序的方式，有三种：
+	// 1、HTML方式：例如<button onclick='xxx()'/>，这种方式缺点有两个：A 事件处理与html结构耦合度太高 增加维护工作量；不能为一个事件增加多个程序
+	// 2、DOM0级方式：
+	// 添加事件：button.onclick = function(){};
+	// 删除事件：button.onclick = null;
+	
+	// 3、DOM2级方式：
+	// 添加事件：
+	// 非IE下：button.addEventListener(‘onclick ’,function(){},false)//false代表不冒泡
+	// IE下：button.attachEvent(‘onclick ’,function(){});//没有第三个参数，是因为IE只支持冒泡
+	
+	// 删除事件：
+	// 非IE下：button.removeEventListener(‘onclick ’,function(){},false);
+	// IE下：button.detachEvent(‘onclick ’,function(){});
+	
+	//  在浏览器中，存在事件对象这个概念，在执行某个事件时，浏览器会将事件相关信息保存进一个对象进行传递，在事件过程中，我们都可以通过这个事件对象获取事件相关信息，例如鼠标点击事件，通过事件对象可以获取到点击的哪个键、是那个dom对象触发的点击等。
+	// 事件对象有两个比较重要的属性：事件类型、目标元素，事件类型有onclick、onmouseover等；目标元素就是dom节点，指的是谁触发的事件。
+	// 事件类型：event.type
+	// 目标元素：DOM下面：event.target;
+	// IE下面：event.srcElement;
+	// 同时存在事件流这么一个概念，它认为事件像流水一样具有传递性，比如我们点击一个button，实际上点击了button本身以及外层的所有节点，这样的约束就形成了这些节点的onclick事件都被触发了。对于这样的事件流行为，不同的浏览器，对于事件流中事件的执行顺序是由区别的，主要分为两种模式：IE认为的事件冒泡和escape的事件捕获，事件冒泡相当于水泡从里向外一层层的扩散，它的执行顺序是从最具体、最里层的节点一层层往外传播执行；事件捕获刚好相反，举个例子，它就犹如捕捉住之后，由外向里一层层的往出抓，它的执行顺序是最外层到最里层节点的。
+	// 浏览器中，还存在一个概念，那就是默认行为。默认行为可以理解成dom元素的天生属性，或者说是某些元素它存在的主要意义。例如form表单的submit、a标签的跳转等。
+	// 一般情况下，对于浏览器默认行为和事件冒泡，我们都需要进行处理，处理的方法如下：
+	// 1、禁止默认行为：
+	// 非IE下：在具体事件执行的程序里面写代码：event.preventDefault();
+	// IE下：在具体事件执行的程序里面写代码：event.returnValue=false;
+	// 2、阻止事件传播：
+	// 非IE下：在具体事件执行的程序里面写代码：event.stopPropagation();
+	// IE下：在具体事件执行的程序里面写代码：event.cancelBubble=true;
+	// 由于上面这些事件相关处理，存在浏览器的差异性，所以我们可以将这些操作进行封装进一个js，在这个js内部处理差异性，在需要执行的地方进行外部js的引用即可，这样可多次复用的效果。
+	
     (function (root, factory) {
         if (typeof define === 'function' && define.amd) { // AMD
             define(factory);
@@ -91,7 +123,7 @@
     var button = document.getElementById('button');
     
     function eventHandler(){
-        alert(1111);
+        alert('florida0723');
     }
     
     $event.addEvent(a1, 'click', function(){
