@@ -1,0 +1,109 @@
+<html>
+<head>
+    <title>js 事件封装</title>
+</head>
+<body>
+    github: <a href="https://github.com/florida0723" target="_blank">github</a>
+    <br/>
+    js 事件封装
+    <div>
+        <button id="button">点击我看看</button>
+        
+        <p>
+            <a href="javascript:;" id="a1">给button绑定事件</a>
+            <a  href="javascript:;" id="a2">删除button绑定的事件</a>
+        </p>
+    </div>
+<script type="text/javascript">
+    (function (root, factory) {
+        if (typeof define === 'function' && define.amd) { // AMD
+            define(factory);
+        } else if (typeof exports === 'object' && typeof module !== 'undefined') { // Node, CommonJS之类的
+            module.exports = factory();
+        } else { // 浏览器全局变量(root 即 window)
+            root.$event = factory();
+        }
+    })(this, (function () {
+        'use strict';
+
+        function event() {
+        }
+
+        event.prototype.addEvent = function (el, eventType, fn) {
+            if (el.addEventListener) {    // 非IE
+                el.addEventListener(eventType, fn, false);
+            } else if (el.attachEvent) {    // IE
+                el.attachEvent('on' + eventType, fn);    // 这里拼接上'on',调运的时候不要加on，使用click等。
+            } else {    // 不支持DOM2级，使用DOM0级方式
+                el['on' + eventType] = fn;//这里使用[]方式实现对象的属性添加，相当于.的作用
+            }
+        };
+
+        event.prototype.removeEvent = function (el, eventType, fn) {
+            if (el.removeEventListener) {    // 非IE
+                el.removeEventListener(eventType, fn, false);    // fn：必须。指定要移除的函数。
+            } else if (el.detachEvent) {    // IE
+                el.detachEvent('on' + eventType, fn);
+            } else {    // 不支持DOM2级，使用DOM0级方式
+                el['on' + eventType] = null;
+            }
+        };
+
+        // 兼容event  
+        event.prototype.getEvent:function(event){  
+            return event ? event : window.event;  
+        }
+        
+        // 获取事件类型  
+        event.prototype.getTarget = function (event) {
+            return event.target || event.srcElement;
+        };
+        
+        event.prototype.getType = function(event) {
+            return event.type; 
+        };
+
+        // 阻止事件的默认行为  
+        event.prototype.preventDefault = function (event) {
+            if (event.preventDefault) {    // 非IE
+                event.preventDefault();
+            } else {    // IE
+                event.returnValue = false;
+            }
+        };
+
+        // 阻止事件冒泡
+        event.prototype.stopPropagation = function (event) {
+            if (event.stopPrapagation) {
+                event.stopPrapagation();
+            } else {    // IE
+                event.cancelBubble = true;
+            }
+        }
+
+        return new event;
+    }))
+    
+    
+    var a1 = document.getElementById('a1'),
+        a2 = document.getElementById('a2');
+        
+    var button = document.getElementById('button');
+    
+    function eventHandler(){
+        alert(1111);
+    }
+    
+    $event.addEvent(a1, 'click', function(){
+        $event.addEvent(button, 'click', eventHandler);
+        alert('事件绑定成功！')
+    });
+    
+    $event.addEvent(a2, 'click', function(){
+        $event.removeEvent(button, 'click', eventHandler);    
+        alert('事件解除绑定成功！')
+    });
+    
+</script>
+</body>
+</html>
