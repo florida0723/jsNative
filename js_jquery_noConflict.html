@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>jQuery noConflict原理</title>
+</head>
+<body>
+    github: <a href="https://github.com/florida0723" target="_blank">github</a>
+    <br/>
+    jQuery noConflict原理
+<script type="text/javascript">
+    //先缓存其他框架的同名变量  
+    var _jQuery = window.jQuery, _$ = window.$;
+    
+    jQuery.extend({  
+        noConflict: function(deep){  
+            //替换为其他框架的  
+            window.$ = _$;  
+            if(deep){  
+                window.jQuery = _jQuery;  
+            }  
+            return jQuery;  
+        }  
+    });  
+    
+    /** 注：
+      * 这段源码，应该有3点影响：
+      * 首先，必须先引入其他的框架，再引入jQuery，这样noConflict方法才会生效。
+      * 第二，假如没有给noConflict传参即调用，那么，调用它之后，还可以通过window.jQuery来引用jQuery对象，其他库使用$。
+      * 最后，假如调用了noConflict(true)，即给它传了参，那么当前jQuery的入口都被改写了，这样应该是为解决不同版本间jQuery冲突而预留的特性。
+      */
+</script>
+
+
+<script type="text/javascript">
+  // 使用
+  $.noConflict();
+  jQuery(document).ready(function($) {
+    // 使用 jQuery $ 的代码
+  });
+  
+  // 使用其他库的 $ 的代码
+</script>
+</body>
+</html>
